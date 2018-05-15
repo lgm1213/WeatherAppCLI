@@ -20,8 +20,14 @@ request({
 	url: `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`,
 	json: true
 }, (error, response, body) => {
-	console.log(`Address: ${body.results[0].formatted_address}`);
-  console.log(`Longitude: ${body.results[0].geometry.location.lat}`);
-  console.log(`Latitude: ${body.results[0].geometry.location.lng}`);
-
+	if (error) {
+		console.log('Error Occured, unable to connect to Google Server');
+	} else if (body.status === 'ZERO_RESULTS') {
+    console.log('Unable to locate address entered.');
+	} else if (body.status === 'OK') {
+		console.log('Everything is great');
+		console.log(`Address: ${body.results[0].formatted_address}`);
+	  console.log(`Longitude: ${body.results[0].geometry.location.lat}`);
+	  console.log(`Latitude: ${body.results[0].geometry.location.lng}`);
+	}
 });
