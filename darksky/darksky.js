@@ -1,9 +1,10 @@
 const request = require('request');
 
+var darkskyApi = process.env.DARKSKYAPI;
 var getWeather = () => {
 	
 	request ({
-			url: 'https://api.darksky.net/forecast/46df3cc870d210b95432d1ca07f3d66f/37.8267,-122.4233',
+			url: `https://api.darksky.net/forecast/${darkskyApi}/37.8267,-122.4233`,
 			json: true
 		},(error, response, body) => {
 		  if (error) {
