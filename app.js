@@ -1,5 +1,5 @@
+// require('dotenv').config()
 const yargs = require('yargs');
-
 const geocode = require('./geocode/geocode');
 const darksky = require('./darksky/darksky');
 
@@ -16,12 +16,18 @@ const argv = yargs
   .alias('help', 'h')
   .argv;
 
-// geocode.geocodeAddress(argv.address, (errorMessage, results) => {
-// 	if (errorMessage) {
-// 		console.log(errorMessage);
-// 	} else {
-// 		console.log(JSON.stringify(results, undefined, 2));
-// 	}
-// });
+geocode.geocodeAddress(argv.address, (errorMessage, results) => {
+	if (errorMessage) {
+		console.log(errorMessage);
+	} else {
+		console.log(results.address);
+		darksky.getWeather(results.latitude, results.longitude, (errorMessage, weatherResults) => {
+			if(errorMessage) {
+				console.log(errorMessage);
+			} else {
+				console.log(`It's currently ${weatherResults.temperature}. It feels like ${weatherResults.apparentTemperature}.`);
+			}
+		});
+	}
+});
 
-darksky.getWeather();
